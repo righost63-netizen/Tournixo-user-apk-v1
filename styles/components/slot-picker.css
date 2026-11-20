@@ -1,0 +1,150 @@
+/* SLOT PICKER — PREMIUM GRID (v8.6 slot redesign, 2026-11-13)
+   শুধু এই picker-টার DESIGN বদলেছে — slot বেছে নেওয়া, taken/selected
+   state, confirm button, txn — কিছুই বদলায়নি।
+   Locked direction: একটাই lime accent #C7FF3E, dark neutral, flat —
+   কোনো gradient, glow বা emoji নেই।
+   FIX (2026-11-13): আগের CSS শুধু tournament-details.html আর payment.html-এ
+   load হতো — Home / Tournaments list থেকে Join খুললে CSS-ই আসতো না, তাই
+   slot-গুলো সাদা browser-default button হয়ে যেত আর legend জড়িয়ে যেত।
+   এখন index.html + pages/home.html + pages/tournaments.html-এও link আছে। */
+
+/* পুরো picker-টা একটা panel-এর ভেতরে */
+.slot-picker-panel {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 16px;
+}
+
+/* Title + খালি count এক লাইনে */
+.slot-picker-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.slot-picker-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    margin: 0;
+}
+
+.slot-picker-count {
+    flex-shrink: 0;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent, #C7FF3E);
+    background: rgba(199, 255, 62, 0.10);
+    border: 1px solid rgba(199, 255, 62, 0.35);
+    border-radius: 999px;
+    padding: 4px 10px;
+    white-space: nowrap;
+}
+
+/* Legend — এখন pill, dot সহ, আর জড়িয়ে যাবে না */
+.slot-picker-legend {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+}
+
+.slot-picker-legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text2);
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 5px 10px;
+}
+
+.slot-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+    display: inline-block;
+    border: 1.5px solid var(--border2);
+    background: var(--bg4);
+    flex-shrink: 0;
+}
+
+.slot-dot-taken {
+    background: var(--bg3);
+    opacity: 0.5;
+}
+
+.slot-dot-selected {
+    background: var(--accent, #C7FF3E);
+    border-color: var(--accent, #C7FF3E);
+}
+
+/* Grid — 6 কলাম, সমান cell (SOLO 48 = 8 row, DUO 24 = 4 row, SQUAD 12 = 2 row) */
+.slot-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+}
+
+.slot-btn {
+    min-height: 48px;
+    border-radius: 12px;
+    border: 1.5px solid var(--border2);
+    background: var(--bg4);
+    color: var(--text);
+    font-size: 15px;
+    font-weight: 600;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    cursor: pointer;
+    padding: 0;
+}
+
+.slot-btn:active {
+    border-color: var(--accent, #C7FF3E);
+}
+
+.slot-btn:focus-visible {
+    outline: 2px solid var(--accent, #C7FF3E);
+    outline-offset: 2px;
+}
+
+.slot-btn.slot-selected {
+    background: var(--accent, #C7FF3E);
+    border-color: var(--accent, #C7FF3E);
+    color: #111;
+    font-weight: 700;
+}
+
+.slot-btn.slot-taken {
+    background: var(--bg3);
+    opacity: 0.4;
+    text-decoration: line-through;
+    cursor: not-allowed;
+}
+
+.slot-btn:disabled {
+    cursor: not-allowed;
+}
+
+/* নিচের status লাইন — slot বাছলে lime bar হয় */
+.slot-picker-note {
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.6;
+    margin-top: 14px;
+}
+
+.slot-picker-note--selected {
+    color: var(--accent, #C7FF3E);
+    font-weight: 600;
+    background: rgba(199, 255, 62, 0.08);
+    border: 1px solid rgba(199, 255, 62, 0.30);
+    border-radius: 12px;
+    padding: 10px 12px;
+}

@@ -1,0 +1,27 @@
+<!-- ═══════════════════════════════════════════════════════════
+     TOURNIXO SPLASH SCREEN — brand reveal (redesign 2026-11-20)
+     Mockup: Tournixo___Splash___Sign_in.html — centered logo tile
+     (96px) + "Tournixo" + "Free Fire tournaments" + lime loading
+     bar. Flow/timing untouched: scripts/app.js hideSplash() still
+     fades it out (inline opacity/transform) — this file is look only.
+     Logo tile is the NEW logo SVG from the user's mockup.
+     ═══════════════════════════════════════════════════════════ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#dcff6e"/><stop offset="1" stop-color="#b4f01f"/></linearGradient>
+    <symbol id="logo" viewBox="0 0 96 96">
+      <rect width="96" height="96" rx="24" fill="url(#g)"/>
+      <path d="M24 24h48v14a24 24 0 0 1-17 23v9h10a4 4 0 0 1 0 8H31a4 4 0 0 1 0-8h10v-9A24 24 0 0 1 24 38z" fill="#0a0f00"/>
+      <path d="M24 30H16a2 2 0 0 0-2 2v4a12 12 0 0 0 10 11.8M72 30h8a2 2 0 0 1 2 2v4a12 12 0 0 1-10 11.8" fill="none" stroke="#0a0f00" stroke-width="5" stroke-linecap="round" opacity=".0"/>
+      <path d="M36 31h24v6a12 12 0 0 1-24 0z" fill="url(#g)"/>
+    </symbol>
+  </defs>
+</svg>
+<div id="screen-splash" class="screen active splash">
+    <div class="splash-center">
+        <svg class="logo" viewBox="0 0 96 96" role="img" aria-label="Tournixo logo"><use href="#logo"/></svg>
+        <div class="word">Tournixo</div>
+        <p>Free Fire tournaments</p>
+    </div>
+    <div class="bar" aria-hidden="true"><i></i></div>
+</div>

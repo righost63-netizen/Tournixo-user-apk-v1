@@ -1,0 +1,260 @@
+/* ══════════════════════════════════════
+     LEADERBOARD — REDESIGN
+     (scoped to body[data-page="leaderboard"] so no other page is affected)
+  ══════════════════════════════════════ */
+body[data-page="leaderboard"] {
+    --bg: #0A0B0D;
+    --bg2: #0A0B0D;
+    --bg3: #1B1E23;
+    --bg4: #15171B;
+    --bg5: #1B1E23;
+    --accent: #C7FF3E;
+    --text: #F2F3F5;
+    --text2: #868C96;
+    --text3: #5C616A;
+    --border: rgba(255, 255, 255, .07);
+    --border2: rgba(255, 255, 255, .07);
+    --mint: #3FD9A4;
+    /* FIX (2026-11-20, S5): golds unify on #FFD700; dead --accent2 removed. */
+    --gold: #FFD700;
+    --silver: #C9CDD3;
+    --bronze: #D89B6A;
+    font-family: "Inter", "Hind Siliguri", "Noto Sans Bengali", system-ui, sans-serif; /* FIX (2026-11-20, S6): Bangla webfont. */
+}
+
+body[data-page="leaderboard"] .top-nav {
+    background: var(--bg);
+    border-bottom: none;
+    padding: calc(var(--safe-top) + 8px) 20px 4px;
+}
+
+body[data-page="leaderboard"] .top-nav h1 {
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 0;
+}
+
+body[data-page="leaderboard"] .scroll-area {
+    padding: 4px 16px 96px;
+}
+
+/* ── Podium ── */
+body[data-page="leaderboard"] .podium {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+body[data-page="leaderboard"] .p-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+body[data-page="leaderboard"] .p-av {
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: var(--text);
+    /* UNSLOP (pass 2): lime/mint gradient avatar -> flat surface. */
+    background: var(--bg5);
+    margin-bottom: 9px;
+    position: relative;
+}
+
+body[data-page="leaderboard"] .p-col.g1 .p-av {
+    width: 78px;
+    height: 78px;
+    font-size: 24px;
+    border: 2px solid var(--gold);
+}
+
+body[data-page="leaderboard"] .p-col.g2 .p-av {
+    width: 62px;
+    height: 62px;
+    font-size: 19px;
+    border: 2px solid var(--silver);
+}
+
+body[data-page="leaderboard"] .p-col.g3 .p-av {
+    width: 62px;
+    height: 62px;
+    font-size: 19px;
+    border: 2px solid var(--bronze);
+}
+
+body[data-page="leaderboard"] .medal {
+    /* UNSLOP (pass 3): medal emoji -> plain rank number in a quiet badge. */
+    position: absolute;
+    top: -10px;
+    right: -6px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #0A0B0D;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text2);
+}
+
+/* FIX (2026-11-19, v8.11): দুই রকম gold নয় — #1 medal-ও পেজের
+   একটাই --gold (#FFD700) ব্যবহার করে। */
+body[data-page="leaderboard"] .p-col.g1 .medal { color: var(--gold); border-color: rgba(255, 215, 0, 0.4); }
+
+body[data-page="leaderboard"] .p-name {
+    font-size: 14px;
+    font-weight: 600;
+    /* FIX (2026-11-19, v8.11): পুরো নাম দেখাও — লম্বা হলে ellipsis। */
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+
+body[data-page="leaderboard"] .p-uid {
+    font-size: 11px;
+    color: var(--text2);
+    font-weight: 500;
+    margin: 4px 0 8px;
+}
+
+body[data-page="leaderboard"] .p-amt {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 8px;
+    font-variant-numeric: tabular-nums;
+}
+
+body[data-page="leaderboard"] .p-col.g1 .p-amt { color: var(--gold); }
+
+body[data-page="leaderboard"] .p-bar {
+    width: 100%;
+    border-radius: 12px 12px 0 0;
+    background: var(--bg4);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text2);
+}
+
+body[data-page="leaderboard"] .p-col.g1 .p-bar {
+    height: 64px;
+    background: var(--bg5);
+    color: var(--gold);
+}
+
+body[data-page="leaderboard"] .p-col.g2 .p-bar { height: 48px; }
+body[data-page="leaderboard"] .p-col.g3 .p-bar { height: 40px; }
+
+/* ── You banner ── */
+body[data-page="leaderboard"] .you-banner {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    /* UNSLOP (pass 2): mint wash -> neutral surface, lime only on the rank figure. */
+    background: var(--bg4);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 16px;
+}
+
+body[data-page="leaderboard"] .you-banner b { color: var(--accent); }
+
+/* ── List ── */
+body[data-page="leaderboard"] .list {
+    background: var(--bg4);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+body[data-page="leaderboard"] .l-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+}
+
+body[data-page="leaderboard"] .l-row:last-child { border-bottom: none; }
+
+body[data-page="leaderboard"] .l-row.me {
+    background: rgba(199, 255, 62, .06);
+}
+
+body[data-page="leaderboard"] .l-rank {
+    width: 18px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--text2);
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+}
+
+body[data-page="leaderboard"] .l-av {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    /* UNSLOP (pass 2): blue gradient avatar -> flat surface. */
+    background: var(--bg5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    flex-shrink: 0;
+}
+
+body[data-page="leaderboard"] .l-body {
+    flex: 1;
+    min-width: 0;
+}
+
+body[data-page="leaderboard"] .l-name {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+    font-size: 13.5px;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+body[data-page="leaderboard"] .l-uid {
+    font-size: 11px;
+    color: var(--text2);
+    font-weight: 600;
+}
+
+body[data-page="leaderboard"] .l-amt {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--text2);
+    flex-shrink: 0;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ── Empty state ── */
+body[data-page="leaderboard"] .empty-state { color: var(--text); }
+body[data-page="leaderboard"] .empty-sub { color: var(--text2); }

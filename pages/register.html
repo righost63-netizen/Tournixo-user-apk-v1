@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Create Account - Tournixo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/global.css">
+    <link rel="stylesheet" href="../styles/components/toast.css">
+    <link rel="stylesheet" href="../styles/components/confirm-dialog.css">
+    <link rel="stylesheet" href="../styles/pages/login.css">
+    <link rel="stylesheet" href="../styles/theme.css">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="icon" type="image/png" sizes="32x32" href="../icons/favicon-32.png">
+    <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+    <!-- modulepreload: warm the shared module graph during HTML parse -->
+    <link rel="modulepreload" href="../scripts/app.js">
+    <link rel="modulepreload" href="../scripts/state.js">
+    <link rel="modulepreload" href="../scripts/cache.js">
+    <link rel="modulepreload" href="../firebase/firebase-init.js">
+</head>
+
+<body data-page="register">
+    <div id="app">
+
+        <!-- ═══════════════════════════════════════════════════════════
+             REGISTER SCREEN — redesign (2026-11-20)
+             Same auth look as login (mockup: Tournixo___Splash___Sign_in.html).
+             Look only: every id, onclick and class scripts/auth-ui.js
+             uses is kept (reg-name / reg-ffuid / reg-phone / reg-email /
+             reg-pass / reg-cpass / reg-terms / reg-btn).
+        ═══════════════════════════════════════════════════════════ -->
+        <div id="screen-register" class="screen active">
+            <div class="auth-scroll">
+                <div class="auth-inner">
+
+                    <!-- Logo tile (NEW logo SVG from the user's mockup) -->
+                    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+                        <defs>
+                            <linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#dcff6e"/><stop offset="1" stop-color="#b4f01f"/></linearGradient>
+                            <symbol id="logo" viewBox="0 0 96 96">
+                                <rect width="96" height="96" rx="24" fill="url(#g)"/>
+                                <path d="M24 24h48v14a24 24 0 0 1-17 23v9h10a4 4 0 0 1 0 8H31a4 4 0 0 1 0-8h10v-9A24 24 0 0 1 24 38z" fill="#0a0f00"/>
+                                <path d="M24 30H16a2 2 0 0 0-2 2v4a12 12 0 0 0 10 11.8M72 30h8a2 2 0 0 1 2 2v4a12 12 0 0 1-10 11.8" fill="none" stroke="#0a0f00" stroke-width="5" stroke-linecap="round" opacity=".0"/>
+                                <path d="M36 31h24v6a12 12 0 0 1-24 0z" fill="url(#g)"/>
+                            </symbol>
+                        </defs>
+                    </svg>
+                    <div class="auth-brand">
+                        <svg class="logo" viewBox="0 0 96 96" role="img" aria-label="Tournixo logo"><use href="#logo"/></svg>
+                        <div class="auth-wordmark">Tournixo</div>
+                        <small class="auth-tagline">Free Fire tournaments</small>
+                    </div>
+
+                    <h1>Create account</h1>
+                    <p class="sub">Join daily Free Fire tournaments.</p>
+
+                    <label class="auth-label" for="reg-name">In-game name (IGN)</label>
+                    <div class="field">
+                        <input id="reg-name" type="text" maxlength="25" placeholder="তোমার Free Fire IGN" autocomplete="off">
+                    </div>
+
+                    <label class="auth-label" for="reg-ffuid">Free Fire UID</label>
+                    <div class="field">
+                        <input id="reg-ffuid" type="text" inputmode="numeric" maxlength="12" placeholder="তোমার Free Fire UID" autocomplete="off">
+                    </div>
+
+                    <!-- IN NUMBER (2026-11-13): Indian mobile is REQUIRED at registration (10 digits, 6/7/8/9 দিয়ে শুরু) — stored as `phone` on the user doc. -->
+                    <label class="auth-label" for="reg-phone">মোবাইল নম্বর</label>
+                    <div class="field">
+                        <input id="reg-phone" type="tel" inputmode="numeric" maxlength="14" placeholder="98765 43210" autocomplete="tel">
+                    </div>
+
+                    <label class="auth-label" for="reg-email">Email</label>
+                    <div class="field">
+                        <input id="reg-email" type="email" placeholder="your@email.com" autocomplete="email">
+                    </div>
+
+                    <label class="auth-label" for="reg-pass">Password</label>
+                    <div class="field">
+                        <input id="reg-pass" type="password" placeholder="Min 6 characters" autocomplete="new-password" style="padding-right:52px">
+                        <!-- Eye icon drawn by togglePass() in utils/dom-helpers.js as an inline SVG. -->
+                        <button type="button" class="input-toggle" aria-label="Show or hide password" onclick="togglePass('reg-pass',this)"></button>
+                    </div>
+
+                    <label class="auth-label" for="reg-cpass">Confirm password</label>
+                    <div class="field">
+                        <input id="reg-cpass" type="password" placeholder="Repeat password" autocomplete="new-password" style="padding-right:52px">
+                        <!-- Eye icon drawn by togglePass() in utils/dom-helpers.js as an inline SVG. -->
+                        <button type="button" class="input-toggle" aria-label="Show or hide password" onclick="togglePass('reg-cpass',this)"></button>
+                    </div>
+
+                    <label class="auth-terms">
+                        <input id="reg-terms" type="checkbox">
+                        <span>I agree to the <a href="terms.html" target="_blank" rel="noopener">Terms &amp; Conditions</a></span>
+                    </label>
+
+                    <button class="btn btn-primary btn-block" id="reg-btn" onclick="doRegister()">Create account</button>
+
+                    <div class="auth-divider"><span>Already have an account?</span></div>
+
+                    <button class="btn btn-secondary btn-block" onclick="navTo('login')">Sign in</button>
+                    <div style="height:40px;"></div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script type="module" src="../scripts/auth-ui.js"></script>
+</body>
+
+</html>

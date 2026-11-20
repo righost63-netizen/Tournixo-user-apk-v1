@@ -1,0 +1,161 @@
+/* Shared main-page header — the same markup and visual rules as Home.
+   Loaded only by Home, Tournaments, Matches, Wallet and Profile.
+   UNSLOP Group 1: flat chrome, one lime accent, 4px grid, weights 500/600.
+   NOTE: this file is shared, so this fix also changes the header on
+   Wallet and Profile (bodies not yet unslopped) — intended. */
+.home-header {
+    padding: calc(var(--safe-top) + 8px) 16px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-shrink: 0;
+    background: var(--bg2);
+    /* UNSLOP (pass 2): glass blur removed — flat surface, hairline only. */
+    border-bottom: 0.5px solid var(--border);
+}
+
+.home-header > div:first-child {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.home-avatar {
+    width: 44px;
+    height: 44px;
+    /* UNSLOP (pass 2/7): gradient tile removed — flat surface, 12px radius. */
+    border-radius: 12px;
+    background: var(--bg4);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* UNSLOP (pass 5): weight 800 -> 600. */
+    font-weight: 600;
+    font-size: 15px;
+    color: #C7FF3E;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.greeting-text {
+    /* UNSLOP (pass 1/5): 22px -> 20px, weight 800 -> 600. */
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 1.2;
+    white-space: nowrap;
+    /* FIX (2026-11-20, S7): 360px ফোনে লম্বা নাম + wallet pill-এ
+       greeting চাপা পড়ত — ellipsis দিয়ে কাটো, layout ভেঙো না। */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.greeting-sub {
+    /* UNSLOP (pass 4/5): uppercase + 1.2px tracking removed — sentence case. */
+    font-size: 12px;
+    letter-spacing: 0;
+    color: var(--text2);
+    margin-top: 4px;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.home-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.wallet-preview {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg4);
+    border: 1px solid var(--border);
+    /* UNSLOP (pass 7): 100px pill -> 10px control radius. */
+    border-radius: 10px;
+    padding: 8px 12px;
+    /* UNSLOP (pass 5): weight 700 -> 600. */
+    font-weight: 600;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.wallet-preview svg {
+    width: 14px;
+    height: 14px;
+}
+
+.wallet-preview span:last-child {
+    font-size: 13px;
+    font-weight: 600;
+    color: #C7FF3E;
+    font-variant-numeric: tabular-nums;
+}
+
+.home-header .icon-btn {
+    width: 44px;
+    height: 44px;
+    /* UNSLOP (pass 7): 100px pill -> 12px control radius. */
+    border-radius: 12px;
+    background: var(--bg4);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    flex-shrink: 0;
+    padding: 0;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.home-header .icon-btn:active {
+    background: var(--bg3);
+}
+
+.home-header .icon-btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+.home-header .icon-btn svg {
+    width: 18px;
+    height: 18px;
+    /* UNSLOP (pass 3): one icon stroke — 1.5 everywhere, also overrides
+       the stroke-width="2" attribute still present in some page HTML. */
+    stroke-width: 1.5;
+    stroke: var(--text);
+}
+
+.home-header .icon-btn .tab-badge {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    border-radius: 8px;
+    background: #FF453A; /* FIX (2026-11-20, S5): reds unify on #FF453A. */
+    color: #fff;
+    font-size: 10px;
+    /* UNSLOP (pass 5): weight 800 -> 600. */
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+
+/* A page title bar immediately below the shared header must not repeat the
+   status-bar inset that the shared header has already consumed. */
+body:not([data-page="home"]) .home-header + .top-nav {
+    padding-top: 12px;
+}

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Tournament Rules - Tournixo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/global.css">
+    <link rel="stylesheet" href="../styles/components/toast.css">
+    <link rel="stylesheet" href="../styles/components/confirm-dialog.css">
+    <link rel="stylesheet" href="../styles/pages/terms.css">
+    <link rel="stylesheet" href="../styles/theme.css">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="icon" type="image/png" sizes="32x32" href="../icons/favicon-32.png">
+    <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+    <!-- modulepreload: warm the shared module graph during HTML parse -->
+    <link rel="modulepreload" href="../scripts/app.js">
+    <link rel="modulepreload" href="../scripts/state.js">
+    <link rel="modulepreload" href="../scripts/cache.js">
+    <link rel="modulepreload" href="../firebase/firebase-init.js">
+</head>
+
+<body data-page="rules">
+    <div id="app">
+        <div id="screen-main" class="screen active">
+
+            <!-- Tournament Rules — premium full page (mirrors terms.html) -->
+            <div class="page terms-page" id="page-rules">
+
+                <!-- Hero header -->
+                <header class="terms-hero">
+                    <button
+                        type="button"
+                        class="back-btn terms-hero-back"
+                        onclick="closeRules()"
+                        aria-label="Go back">‹ Back</button>
+                    <div class="terms-hero-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M9 12l2 2 4-4"/></svg></div>
+                    <h1 class="terms-hero-title">Tournament Rules</h1>
+                    <p class="terms-hero-sub">The tournament rules of Tournixo</p>
+                    <div id="rules-updated-chip" class="terms-updated-chip" style="display:none;"></div>
+                </header>
+
+                <!-- Content -->
+                <main class="terms-content-area">
+                    <article id="rules-content" class="terms-content">
+                        <div class="terms-empty-state">
+                            <div class="spinner"></div>
+                        </div>
+                    </article>
+                    <footer class="terms-footer">
+                        <div class="terms-footer-brand">Tournixo</div>
+                        <div class="terms-footer-note">Play fair · Win real</div>
+                    </footer>
+                </main>
+
+            </div>
+
+        </div>
+    </div>
+
+    <script type="module" src="../scripts/rules.js"></script>
+</body>
+
+</html>

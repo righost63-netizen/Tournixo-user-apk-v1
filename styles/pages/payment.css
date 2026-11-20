@@ -1,0 +1,215 @@
+/* Payment Sheet
+   UNSLOP Group 2: orange/cyan/gold washes, glow, 800 weights and
+   transition:all flattened to the locked direction. Payment and
+   Withdrawal share this file, so the page-scoped overrides at the
+   bottom cover both sheets (global.css is not touched). */
+.payment-method-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+/* UNSLOP (pass 2): gold wash → neutral surface, solid gold figure. */
+.payment-number-display {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 12px;
+}
+
+.payment-number-val {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--gold);
+    font-variant-numeric: tabular-nums;
+}
+
+.pay-method-chip {
+    flex: 1;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background-color .15s ease, border-color .15s ease, color .15s ease, transform .15s ease;
+    text-align: center;
+}
+
+/* UNSLOP (pass 2): orange wash + glow → lime tint, no shadow. */
+.pay-method-chip.active {
+    border-color: var(--accent);
+    background: rgba(199, 255, 62, 0.10);
+    color: var(--accent);
+}
+
+.pay-method-chip:active { transform: scale(0.98); }
+
+/* v6: copy button next to the Admin UPI ID — same language as the sheet's chips */
+/* UNSLOP (pass 2/3): cyan wash → neutral chip, 12px copy line icon. */
+.pay-copy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: inherit;
+    color: var(--text);
+    background: var(--bg5);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 4px 10px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+.pay-copy-btn:active { opacity: 0.6; }
+
+.pay-copy-btn svg {
+    width: 12px;
+    height: 12px;
+}
+
+/* Long tournament names stay readable on the payment sheet without
+   stretching the sheet layout. */
+#pay-tournament-name {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+    line-height: 1.4;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Page-scoped overrides for the shared global sheet styles.
+   global.css is NOT edited (its .btn-primary blue gradient, 800
+   .sheet-title, uppercase .auth-label and glass .bottom-sheet still
+   serve the out-of-scope pages) — these rules win here because the
+   page CSS is scoped to the sheet's own data-page.
+   ═══════════════════════════════════════════════════════════ */
+
+/* UNSLOP (pass 2): the primary action is solid lime on these sheets,
+   not the global blue gradient; press is a 0.97 scale, no cyan glow. */
+body[data-page="payment"] .btn-primary,
+body[data-page="withdrawal"] .btn-primary {
+    background: var(--accent);
+    color: #0A0B0D;
+    box-shadow: none;
+    font-weight: 600;
+}
+
+body[data-page="payment"] .btn-primary:active,
+body[data-page="withdrawal"] .btn-primary:active {
+    transform: scale(0.97);
+    box-shadow: none;
+}
+
+/* UNSLOP (pass 5): sheet title 800 → 600, no tight tracking. */
+body[data-page="payment"] .sheet-title,
+body[data-page="withdrawal"] .sheet-title {
+    font-weight: 600;
+    letter-spacing: 0;
+}
+
+/* UNSLOP (pass 4/5): labels 11px/700/uppercase → 13px/500 sentence case. */
+body[data-page="payment"] .auth-label,
+body[data-page="withdrawal"] .auth-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text2);
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+/* UNSLOP (pass 2/9): glass blur → solid sheet, named transitions only. */
+body[data-page="payment"] .bottom-sheet,
+body[data-page="withdrawal"] .bottom-sheet {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: var(--bg2);
+    transition: background-color .15s ease, border-color .15s ease;
+}
+
+/* UNSLOP (pass 2): instruction box — orange wash → neutral surface. */
+body[data-page="payment"] .pay-note {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin: 12px 0;
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.6;
+}
+
+/* ── WALLET (2026-11-07): payment-method options ──
+   Flat rows; the selected one gets the lime border + the same lime
+   tint already used in the join modal (rgba(199,255,62,0.07)). */
+body[data-page="payment"] .pay-method-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--bg3);
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    margin-bottom: 8px;
+}
+
+body[data-page="payment"] .pay-method-option.selected {
+    border-color: var(--accent);
+    background: rgba(199, 255, 62, 0.07);
+}
+
+body[data-page="payment"] .pay-method-option input[type="radio"] {
+    accent-color: var(--accent);
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    margin: 0;
+}
+
+body[data-page="payment"] .pay-wallet-balance {
+    margin-left: auto;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text2);
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+}
+
+body[data-page="payment"] .pay-wallet-note {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin: 12px 0;
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.6;
+}
+
+/* UNSLOP (pass 5): available balance is a money figure — 600, tabular. */
+body[data-page="withdrawal"] .withdraw-available {
+    font-weight: 600;
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+}
+
+/* UNSLOP (pass 3): sheet input icons are 16px line icons, muted. */
+body[data-page="payment"] .input-group .input-icon svg,
+body[data-page="withdrawal"] .input-group .input-icon svg {
+    width: 16px;
+    height: 16px;
+    display: block;
+}

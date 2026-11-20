@@ -1,0 +1,765 @@
+/* ══════════════════════════════════════
+     MY WALLET — REDESIGN (2026-11-20)
+     Matches the Tournixo Wallet & Matches reference mockup.
+     Tokens: bg #000, surface #0d0f12, surface2 #14171c,
+     line #1d2127, text #f2f4f7, mute #8a909c, lime #C7FF3E,
+     acc-ink #0a0f00, accsoft rgba(199,255,62,.12),
+     warn #f5b04c (lock icon only).
+     Flat only — no gradients, no glows, no glass/blur, no emoji.
+     Amounts in text colour (reference) — gold is not used here.
+     Scoped to body[data-page="wallet"] so no other page is affected.
+     HTML + CSS only — no JS touched; every id/class the JS uses
+     is kept exactly as-is.
+  ══════════════════════════════════════ */
+body[data-page="wallet"] {
+    --bg: #000000;
+    --bg2: #0d0f12;
+    --bg3: #14171c;
+    --bg4: #14171c;
+    --bg5: #0d0f12;
+    --surface: #0d0f12;
+    --surface2: #14171c;
+    --line: #1d2127;
+    --accent: #C7FF3E;
+    --acc: #C7FF3E;
+    --acc-ink: #0a0f00;
+    --accsoft: rgba(199, 255, 62, .12);
+    --warn: #f5b04c;
+    --text: #f2f4f7;
+    --text2: #8a909c;
+    --text3: #5c616a;
+    --border: #1d2127;
+    --border2: #1d2127;
+    --mint: #3fd9a4;
+    --red: #FF453A; /* FIX (2026-11-20, S5): reds unify on #FF453A (mint kept — tx direction). */
+    --success: #00e676;
+    --error: #FF453A; /* FIX (2026-11-20, S5): reds unify on #FF453A. */
+    color-scheme: dark;
+    background: var(--bg);
+    font-family: "Inter", "Hind Siliguri", "Noto Sans Bengali", system-ui, sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+/* 480px centred app (reference .app). The fixed bottom nav and the
+   fixed deposit overlay are centred to the same width below. */
+body[data-page="wallet"] #app {
+    max-width: 480px;
+}
+
+/* ── Shared header, restyled to the reference via page CSS only ──
+   Markup (avatar + greeting + wallet chip + bell) is shared chrome
+   and stays — only the look changes to match the reference header. */
+body[data-page="wallet"] .home-header {
+    background: var(--bg);
+    border-bottom: none;
+    padding: calc(var(--safe-top) + 8px) 20px 12px;
+}
+
+body[data-page="wallet"] .home-avatar {
+    background: var(--surface2);
+    border-color: var(--line);
+    color: var(--acc);
+}
+
+body[data-page="wallet"] .greeting-text {
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+body[data-page="wallet"] .greeting-sub {
+    font-size: 13px;
+    color: var(--text2);
+}
+
+body[data-page="wallet"] .wallet-preview {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--acc);
+}
+
+body[data-page="wallet"] .wallet-preview span:last-child {
+    font-size: 14px;
+    color: var(--acc);
+}
+
+body[data-page="wallet"] .home-header .icon-btn {
+    background: var(--surface);
+    border-color: var(--line);
+}
+
+/* ── Page ── */
+body[data-page="wallet"] .scroll-area {
+    padding: 0 20px 96px;
+}
+
+body[data-page="wallet"] .page-title {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: 4px 0 16px;
+    color: var(--text);
+}
+
+/* ── Balance card (reference .card) ── */
+body[data-page="wallet"] .balance-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 20px;
+    margin-bottom: 12px;
+}
+
+/* Hero block is now plain content inside the card — no second
+   surface, no border of its own. */
+body[data-page="wallet"] .wallet-hero-card {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    box-sizing: border-box;
+}
+
+body[data-page="wallet"] .wallet-hero-balance {
+    margin: 0;
+}
+
+body[data-page="wallet"] .b-label,
+body[data-page="wallet"] .wallet-hero-label {
+    font-size: 13px;
+    color: var(--text2);
+    font-weight: 500;
+    margin-bottom: 2px;
+}
+
+/* Reference .amt: 36px/700, text colour — the ₹ is text colour too. */
+body[data-page="wallet"] .wallet-hero-amount {
+    display: flex;
+    align-items: baseline;
+    gap: 3px;
+    color: var(--text);
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+    overflow-wrap: anywhere;
+    margin: 2px 0;
+}
+
+body[data-page="wallet"] .wallet-currency {
+    color: var(--text);
+}
+
+body[data-page="wallet"] .wallet-hero-caption {
+    margin-top: 2px;
+    color: var(--text2);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* ── Deposit Balance split (reference .split + hr) ──
+   The row's top border IS the reference <hr>. */
+body[data-page="wallet"] .deposit-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px;
+    border-top: 1px solid var(--line);
+    padding-top: 16px;
+    margin: 16px 0;
+}
+
+body[data-page="wallet"] .deposit-amount {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+}
+
+body[data-page="wallet"] .deposit-amount span:first-child {
+    color: var(--text);
+}
+
+body[data-page="wallet"] .deposit-note {
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--text2);
+    text-align: right;
+    max-width: 46%;
+    line-height: 1.5;
+}
+
+/* Pending notes are status text, not money figures — muted. */
+body[data-page="wallet"] #wallet-pending-note,
+body[data-page="wallet"] #wallet-pending-deposit-note {
+    color: var(--text2);
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* ── Hero buttons (reference .btn) ── */
+body[data-page="wallet"] .b-btns {
+    display: flex;
+    gap: 12px;
+    margin-top: 18px;
+}
+
+body[data-page="wallet"] .b-btn {
+    flex: 1;
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: inherit;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    white-space: nowrap;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--text);
+    transition: transform .15s ease, opacity .15s ease;
+}
+
+body[data-page="wallet"] .b-btn:active {
+    transform: scale(0.97);
+    opacity: .85;
+}
+
+body[data-page="wallet"] .b-btn.primary {
+    background: var(--acc);
+    color: var(--acc-ink);
+    border-color: var(--acc);
+}
+
+body[data-page="wallet"] .b-btn.ghost {
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--text);
+}
+
+body[data-page="wallet"] .b-btn svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+/* ── Lifetime stats row (reference .row.stats .card) ── */
+body[data-page="wallet"] .wallet-stats {
+    display: flex;
+    gap: 12px;
+    margin: 12px 0 24px;
+}
+
+body[data-page="wallet"] .wallet-stat {
+    flex: 1;
+    min-width: 0;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 20px;
+}
+
+body[data-page="wallet"] .ws-label {
+    font-size: 13px;
+    color: var(--text2);
+    font-weight: 500;
+    margin-bottom: 2px;
+}
+
+body[data-page="wallet"] .ws-amount {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+}
+
+body[data-page="wallet"] .ws-amount span:first-child {
+    color: var(--text);
+}
+
+/* ── Tabs (reference .tabs — underline, lime for active) ── */
+body[data-page="wallet"] .tabs {
+    display: flex;
+    gap: 20px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 8px;
+}
+
+body[data-page="wallet"] .tab {
+    padding: 10px 0;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: inherit;
+    color: var(--text2);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+}
+
+body[data-page="wallet"] .tab.active {
+    color: var(--text);
+    border-bottom-color: var(--acc);
+}
+
+/* ── Transaction rows (JS-rendered .tx) ──
+   In/out keep their quiet semantic colours (mint/red) — they are
+   direction, not gold; amounts elsewhere are text colour. */
+body[data-page="wallet"] .tx {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+}
+
+body[data-page="wallet"] .tx:last-child { border-bottom: none; }
+
+body[data-page="wallet"] .tx-ic {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background: var(--surface2);
+    border: 1px solid var(--line);
+    color: var(--text2);
+}
+
+body[data-page="wallet"] .tx-ic svg {
+    width: 18px;
+    height: 18px;
+}
+
+body[data-page="wallet"] .tx-body {
+    flex: 1;
+    min-width: 0;
+}
+
+body[data-page="wallet"] .tx-title {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: 2px;
+}
+
+body[data-page="wallet"] .tx-sub {
+    font-size: 12px;
+    color: var(--text2);
+    font-weight: 500;
+}
+
+body[data-page="wallet"] .tx-amt {
+    font-size: 14px;
+    font-weight: 600;
+    flex-shrink: 0;
+    font-variant-numeric: tabular-nums;
+}
+
+body[data-page="wallet"] .tx-amt.out { color: var(--red); }
+body[data-page="wallet"] .tx-amt.in { color: var(--mint); }
+/* FIX (2026-11-20, W1/W2): pending/rejected amount — neutral, no sign. */
+body[data-page="wallet"] .tx-amt.neutral { color: var(--text2); }
+
+/* ── Empty states (JS-rendered .empty-state, reference .empty) ── */
+body[data-page="wallet"] .empty-state {
+    padding: 36px 0;
+    text-align: center;
+    color: var(--text);
+}
+
+body[data-page="wallet"] .empty-icon {
+    color: var(--text2);
+    opacity: 1;
+}
+
+body[data-page="wallet"] .empty-icon svg {
+    width: 40px;
+    height: 40px;
+}
+
+body[data-page="wallet"] .empty-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+}
+
+body[data-page="wallet"] .empty-sub {
+    font-size: 14px;
+    color: var(--text2);
+}
+
+/* ── Add Money sheet ──
+   Sheet chrome (.overlay/.bottom-sheet/.btn/.input-group/.auth-label)
+   comes from global.css; only sheet-specific bits live here. */
+body[data-page="wallet"] #overlay-deposit .bottom-sheet {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-bottom: none;
+    border-radius: 18px 18px 0 0;
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+/* Flat primary buttons on this page — no shadow. */
+body[data-page="wallet"] .btn-primary {
+    box-shadow: none;
+    border-radius: 12px;
+}
+
+body[data-page="wallet"] #overlay-deposit .sheet-title {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+body[data-page="wallet"] #dep-submit-btn {
+    margin-top: 4px;
+    width: 100%;
+    min-height: 52px;
+    font-size: 15px;
+    border-radius: 12px;
+}
+
+body[data-page="wallet"] #dep-submit-btn:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+body[data-page="wallet"] .dep-limits {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text2);
+    margin: 12px 0 0;
+    font-variant-numeric: tabular-nums;
+}
+
+body[data-page="wallet"] .dep-note {
+    background: var(--surface2);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin: 12px 0;
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.6;
+}
+
+body[data-page="wallet"] .dep-error {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--error);
+    margin: 0 0 12px;
+    line-height: 1.5;
+}
+
+/* Copy button next to the Admin UPI ID — same chip as the payment
+   sheet (payment.css is not loaded on this page). */
+body[data-page="wallet"] .pay-copy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: inherit;
+    color: var(--text);
+    background: var(--surface2);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 4px 10px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+body[data-page="wallet"] .pay-copy-btn:active { opacity: 0.6; }
+body[data-page="wallet"] .pay-copy-btn svg {
+    width: 12px;
+    height: 12px;
+}
+
+/* ── Add Money sheet: recipient card ──
+   Lime avatar circle + payee name + UPI ID, on one flat surface. */
+body[data-page="wallet"] .dep-recipient {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--surface2);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 14px;
+}
+
+body[data-page="wallet"] .dep-payee-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--acc);
+    color: var(--acc-ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+body[data-page="wallet"] .dep-payee-info {
+    flex: 1;
+    min-width: 0;
+}
+
+body[data-page="wallet"] .dep-payee-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+body[data-page="wallet"] .dep-payee-name-row {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+body[data-page="wallet"] .dep-verified {
+    flex-shrink: 0;
+}
+
+body[data-page="wallet"] .dep-payee-upi {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 2px;
+    font-size: 13px;
+    color: var(--text2);
+}
+
+/* ── Add Money sheet: keypad-style amount entry ──
+   Big centred ₹ + amount on a flat surface. */
+body[data-page="wallet"] .dep-amount-entry {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: var(--surface2);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 18px 16px;
+}
+
+body[data-page="wallet"] .dep-amount-symbol {
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--acc);
+    line-height: 1;
+}
+
+body[data-page="wallet"] .dep-amount-entry input {
+    flex: 1;
+    min-width: 0;
+    background: transparent;
+    border: none;
+    outline: none;
+    text-align: center;
+    font-family: inherit;
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    padding: 0;
+}
+
+body[data-page="wallet"] .dep-amount-entry input::placeholder {
+    color: var(--text3);
+}
+
+/* ── Quick amount chips ── */
+body[data-page="wallet"] .dep-chips {
+    display: flex;
+    gap: 8px;
+    margin: 12px 0 4px;
+}
+
+body[data-page="wallet"] .dep-chip {
+    flex: 1;
+    padding: 10px 0;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: var(--surface2);
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+body[data-page="wallet"] .dep-chip.active {
+    border-color: var(--acc);
+    color: var(--acc);
+    background: var(--accsoft);
+}
+
+/* Hide the number-input spinners so the entry reads like a keypad. */
+body[data-page="wallet"] .dep-amount-entry input::-webkit-outer-spin-button,
+body[data-page="wallet"] .dep-amount-entry input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+body[data-page="wallet"] .dep-amount-entry input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+/* ── Add Money sheet: UPI QR card ──
+   PhonePe-style: payee card on top, QR centred, one clear action.
+   Dark + lime only; the QR canvas itself is white (scanners need it). */
+body[data-page="wallet"] .dep-qr-card {
+    background: var(--surface2);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 14px;
+    text-align: center;
+}
+
+body[data-page="wallet"] .dep-qr-card canvas {
+    display: block;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 12px;
+    border-radius: 8px;
+    background: #ffffff;
+}
+
+body[data-page="wallet"] .dep-qr-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+}
+
+body[data-page="wallet"] .dep-qr-upi {
+    font-family: monospace;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text2);
+    margin-top: 2px;
+    overflow-wrap: anywhere;
+}
+
+body[data-page="wallet"] .dep-qr-hint {
+    font-size: 12px;
+    color: var(--text2);
+    margin-top: 8px;
+}
+
+body[data-page="wallet"] .dep-qr-download {
+    width: 100%;
+    min-height: 44px;
+    margin-top: 12px;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: var(--surface2);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* FIX (2026-11-20, W7): QR vendor fail message — QR card-এর জায়গায়। */
+body[data-page="wallet"] .dep-qr-error {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text2);
+    background: var(--surface2);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+/* UTR input (global .input-group) on the reference tokens. */
+body[data-page="wallet"] .input-group {
+    background: var(--surface2);
+    border-color: var(--line);
+}
+
+body[data-page="wallet"] .input-group:focus-within {
+    border-color: rgba(199, 255, 62, 0.5);
+    box-shadow: none;
+}
+
+/* ── Shared bottom nav, restyled to the reference via page CSS only ──
+   The nav markup already has SVG icons; the active item is lime.
+   The lime dot under the active item is removed (reference has none). */
+body[data-page="wallet"] .tab-bar {
+    max-width: 480px;
+    background: #000000;
+    border-top: 1px solid var(--line);
+    padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0px));
+}
+
+body[data-page="wallet"] .tab-item.active::after {
+    display: none;
+}
+
+body[data-page="wallet"] .tab-label {
+    font-size: 12px;
+}
+
+body[data-page="wallet"] .tab-item.active .tab-label {
+    color: var(--acc);
+    font-weight: 600;
+}
+
+body[data-page="wallet"] .tab-icon svg {
+    stroke-width: 1.8;
+}
+
+body[data-page="wallet"] button:focus-visible,
+body[data-page="wallet"] a:focus-visible,
+body[data-page="wallet"] input:focus-visible {
+    outline: 2px solid var(--acc);
+    outline-offset: 2px;
+}
+
+@media (max-width: 360px) {
+    body[data-page="wallet"] .wallet-hero-amount {
+        font-size: 32px;
+    }
+
+    body[data-page="wallet"] .deposit-note {
+        max-width: 46%;
+    }
+}

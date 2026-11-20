@@ -1,0 +1,110 @@
+/* ══════════════════════════════════════
+     TOURNIXO SPLASH SCREEN — brand reveal (redesign 2026-11-20)
+     Mockup: Tournixo___Splash___Sign_in.html. Faint lime radial
+     wash at the top + soft logo glow — the user's explicit design
+     for this screen (the no-glow rule is overridden here only, by
+     his call). Entrance pop/rise on the inner lockup only; the
+     fade-out itself is driven by scripts/app.js hideSplash()
+     (inline opacity/transform), so nothing here fights it.
+  ══════════════════════════════════════ */
+#screen-splash.splash {
+    background: radial-gradient(120% 60% at 50% 0%, rgba(199, 255, 62, .10), transparent 60%), #000;
+    color: #f2f4f7;
+    font-family: "Inter", "Hind Siliguri", "Noto Sans Bengali", system-ui, sans-serif;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    width: 100%;
+    height: 100dvh;
+    overflow: hidden;
+}
+
+/* Center lockup */
+.splash-center {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* NEW logo tile from the user's mockup (96px, lime gradient tile). */
+#screen-splash .logo {
+    display: block;
+    width: 96px;
+    height: 96px;
+    border-radius: 24%;
+    box-shadow: 0 0 0 1px rgba(199, 255, 62, .25), 0 12px 40px rgba(199, 255, 62, .18);
+    animation: splashPop .8s cubic-bezier(.2, .8, .2, 1) both;
+}
+
+#screen-splash .word {
+    font-size: 38px;
+    font-weight: 700;
+    letter-spacing: -.035em;
+    line-height: 1.1;
+    margin-top: 26px;
+    color: #f2f4f7;
+    animation: splashRise .8s .25s ease both;
+}
+
+#screen-splash p {
+    color: #8a909c;
+    font-size: 14px;
+    margin-top: 8px;
+    animation: splashRise .8s .4s ease both;
+}
+
+/* Bottom loading bar (96px, lime fill) */
+#screen-splash .bar {
+    position: absolute;
+    bottom: calc(56px + env(safe-area-inset-bottom, 0px));
+    width: 96px;
+    height: 3px;
+    background: #222831;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+#screen-splash .bar i {
+    display: block;
+    height: 100%;
+    width: 100%;
+    background: #C7FF3E;
+    transform: translateX(-100%);
+    animation: splashLoad 2.2s ease-in-out forwards;
+}
+
+/* Kept for parity with the mockup (.out); app.js hides the splash
+   with inline styles instead, so this is only a fallback hook. */
+#screen-splash.out {
+    opacity: 0;
+    visibility: hidden;
+}
+
+@keyframes splashPop {
+    from { opacity: 0; transform: scale(.8); }
+    to   { opacity: 1; transform: none; }
+}
+
+@keyframes splashRise {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: none; }
+}
+
+@keyframes splashLoad {
+    to { transform: translateX(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #screen-splash .logo,
+    #screen-splash .word,
+    #screen-splash p,
+    #screen-splash .bar i {
+        animation: none;
+    }
+    #screen-splash .bar i { transform: none; }
+}

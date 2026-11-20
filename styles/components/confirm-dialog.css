@@ -1,0 +1,52 @@
+/* Confirm Dialog */
+.confirm-dialog {
+    position: fixed;
+    inset: 0;
+    z-index: 700;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: rgba(0, 0, 0, 0.72);
+    /* UNSLOP Group 4 (pass 2): blur removed — the dark dim stays. */
+}
+
+.confirm-dialog.active {
+    display: flex;
+}
+
+.confirm-box {
+    background: var(--bg4);
+    border: 0.5px solid var(--border2);
+    border-radius: 16px;
+    padding: 24px 20px;
+    width: 100%;
+    max-width: 320px;
+    box-shadow: var(--shadow-lg);
+    animation: scaleIn 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.confirm-title {
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.confirm-body {
+    font-size: 14px;
+    color: var(--text2);
+    text-align: center;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.confirm-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.confirm-actions .btn {
+    min-height: 48px;
+    font-size: 15px;
+}
