@@ -1,0 +1,57 @@
+/* Skeleton loaders (used by showSkeleton() in scripts/modal.js) */
+/* FIX (2026-11-11, L8): gradient shimmer নয় — flat bg + opacity pulse
+   (কিছু device-এ gradient shimmer glitch করত)। */
+@keyframes skeleton-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.55; }
+}
+.skeleton {
+    background: var(--bg4);
+    animation: skeleton-pulse 1.5s ease-in-out infinite;
+    border-radius: 8px;
+}
+
+.skeleton-card {
+    height: 280px;
+    background: var(--bg4);
+    border-radius: 28px;
+    margin: 0 16px 14px;
+    overflow: hidden;
+    padding: 0;
+    border: 1px solid var(--border);
+}
+
+/* ── Wallet / TX Skeleton ── */
+.skeleton-tx-card {
+    height: 72px;
+    background: var(--bg4);
+    border-radius: 16px;
+    margin: 0 16px 10px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    gap: 14px;
+}
+
+.skeleton-tx-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: var(--bg5);
+    animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+.skeleton-tx-lines {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.skeleton-item {
+    background: var(--bg5);
+    animation: skeleton-pulse 1.5s ease-in-out infinite;
+}

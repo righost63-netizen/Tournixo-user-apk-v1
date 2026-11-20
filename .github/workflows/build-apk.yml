@@ -1,0 +1,61 @@
+name: Build Tournixo Android APK
+
+on:
+  workflow_dispatch:
+    inputs:
+      onesignal_app_id:
+        description: "OneSignal App ID (optional override)"
+        required: false
+        default: ""
+  push:
+    branches: [ main, master ]
+
+jobs:
+  build-debug-apk:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install npm dependencies and bundle web assets
+        run: |
+          npm install --no-audit --no-fund
+          npm run build
+
+      - name: Setup JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Setup Gradle 8.2.1
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.2.1"
+
+      - name: Build signed Debug APK
+        working-directory: android
+        env:
+          ONESIGNAL_APP_ID: ${{ github.event.inputs.onesignal_app_id || secrets.ONESIGNAL_APP_ID }}
+        run: gradle assembleDebug --no-daemon
+
+      - name: Stage APK in src/Tournixo-debug.apk
+        run: |
+          mkdir -p src
+          cp android/app/build/outputs/apk/debug/app-debug.apk src/Tournixo-debug.apk
+
+      - name: Upload Tournixo-debug.apk artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Tournixo-debug-apk
+          path: src/Tournixo-debug.apk
+          if-no-files-found: error

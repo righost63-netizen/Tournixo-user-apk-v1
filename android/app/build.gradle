@@ -1,0 +1,98 @@
+apply plugin: 'com.android.application'
+
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
+def onesignalAppId = System.getenv("ONESIGNAL_APP_ID")
+if (!onesignalAppId && project.hasProperty("ONESIGNAL_APP_ID")) {
+    onesignalAppId = project.property("ONESIGNAL_APP_ID").toString()
+}
+if (!onesignalAppId) {
+    onesignalAppId = "[YOUR_ONESIGNAL_APP_ID]"
+}
+
+android {
+    namespace "com.tournixo.app"
+    compileSdk rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        applicationId "com.tournixo.app"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 812
+        versionName "8.12.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String", "ONESIGNAL_APP_ID", "\"${onesignalAppId.replace('"', '\\"')}\""
+
+        aaptOptions {
+            // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
+            ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
+        }
+    }
+
+    buildFeatures {
+        buildConfig true
+    }
+
+    signingConfigs {
+        release {
+            def ksFile = System.getenv("TOURNIXO_KEYSTORE_FILE") ?: keystoreProperties.getProperty("storeFile")
+            def ksPass = System.getenv("TOURNIXO_KEYSTORE_PASSWORD") ?: keystoreProperties.getProperty("storePassword")
+            def ksAlias = System.getenv("TOURNIXO_KEY_ALIAS") ?: keystoreProperties.getProperty("keyAlias")
+            def ksKeyPass = System.getenv("TOURNIXO_KEY_PASSWORD") ?: keystoreProperties.getProperty("keyPassword")
+            if (ksFile && ksPass && ksAlias && ksKeyPass) {
+                storeFile rootProject.file(ksFile)
+                storePassword ksPass
+                keyAlias ksAlias
+                keyPassword ksKeyPass
+            }
+        }
+    }
+
+    buildTypes {
+        debug {
+            debuggable true
+            applicationIdSuffix ""
+        }
+        release {
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            if (signingConfigs.release.storeFile != null) {
+                signingConfig signingConfigs.release
+            }
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+repositories {
+    google()
+    mavenCentral()
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':capacitor-android')
+    implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
+    implementation "androidx.coordinatorlayout:coordinatorlayout:$androidxCoordinatorLayoutVersion"
+    implementation "androidx.core:core:$androidxCoreVersion"
+    implementation "androidx.core:core-splashscreen:$coreSplashScreenVersion"
+    implementation "androidx.webkit:webkit:$androidxWebkitVersion"
+    implementation 'com.google.android.material:material:1.11.0'
+    implementation 'com.onesignal:OneSignal:[5.1.6, 5.99.99]'
+
+    testImplementation "junit:junit:$junitVersion"
+    androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
+}
+
+apply from: 'capacitor.build.gradle'

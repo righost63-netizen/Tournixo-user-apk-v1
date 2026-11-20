@@ -1,0 +1,418 @@
+/* ══════════════════════════════════════
+     AUTH SCREENS — login / register / verify-email (redesign 2026-11-20)
+     Mockup: Tournixo___Splash___Sign_in.html.
+     Tokens: bg #000, surface #0d0f12, surface2 #14171c, line #222831,
+     text #f2f4f7, mute #8a909c, lime #C7FF3E (locked), err #FF453A.
+     Font: "Inter","Hind Siliguri","Noto Sans Bengali",system-ui.
+     The faint lime radial wash at the top + soft logo glow are the
+     user's explicit design for these screens (his call overrides
+     the old no-glow rule here only). Scoped to the three auth pages
+     so nothing else changes. Verify-email's data-page sits on
+     <html>, not <body> — it is scoped with html[data-page="verifyEmail"].
+  ══════════════════════════════════════ */
+
+/* ── Scoped tokens ── */
+body[data-page="login"],
+body[data-page="register"],
+html[data-page="verifyEmail"] {
+    --bg: #000000;
+    --bg2: #0d0f12;
+    --bg3: #0d0f12;
+    --bg4: #14171c;
+    --bg5: #14171c;
+    --surface: #0d0f12;
+    --surface2: #14171c;
+    --line: #222831;
+    --border: #222831;
+    --border2: #2c323b;
+    --border3: #2c323b;
+    --text: #f2f4f7;
+    --text2: #8a909c;
+    --text3: #5c616a;
+    --accent: #C7FF3E;
+    --acc: #C7FF3E;
+    --acc-ink: #0a0f00;
+    --accsoft: rgba(199, 255, 62, .12);
+    --error: #FF453A; /* FIX (2026-11-20, S5): reds unify on #FF453A. */
+    --error-dim: rgba(255, 69, 58, .12);
+    --warn: #f5b04c;
+    --success: #00e676;
+    background: #000;
+    color: var(--text);
+    font-family: "Inter", "Hind Siliguri", "Noto Sans Bengali", system-ui, sans-serif;
+}
+
+/* ── Page background: faint lime wash at the top (mockup .screen) ── */
+#screen-login,
+#screen-register {
+    background: radial-gradient(120% 60% at 50% 0%, rgba(199, 255, 62, .10), transparent 60%), #000;
+}
+
+html[data-page="verifyEmail"] body {
+    background: radial-gradient(120% 60% at 50% 0%, rgba(199, 255, 62, .10), transparent 60%), #000;
+    min-height: 100dvh;
+}
+
+.auth-scroll {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    /* পুরনো ফোনে momentum scroll — আঙুল ছাড়লেও মসৃণভাবে গড়িয়ে যায় */
+    overscroll-behavior: contain;
+    scrollbar-width: none;
+    padding-bottom: 40px;
+}
+
+.auth-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+/* 440px centred column (mockup #login). */
+.auth-inner {
+    max-width: 440px;
+    margin: 0 auto;
+    padding: max(48px, env(safe-area-inset-top, 0px)) 24px 32px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ── Brand lockup (mockup .top) ── */
+.auth-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 36px;
+}
+
+/* NEW logo tile from the user's mockup (64px on auth screens). */
+.auth-brand .logo {
+    display: block;
+    width: 64px;
+    height: 64px;
+    border-radius: 24%;
+    box-shadow: 0 0 0 1px rgba(199, 255, 62, .25), 0 12px 40px rgba(199, 255, 62, .18);
+}
+
+.auth-wordmark {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -.01em;
+    line-height: 1.1;
+    margin-top: 14px;
+    color: var(--text);
+}
+
+.auth-tagline {
+    color: var(--text2);
+    font-size: 13.5px;
+    margin-top: 2px;
+}
+
+/* ── Headings (mockup h1 + .sub) ── */
+.auth-inner h1 {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -.02em;
+    line-height: 1.2;
+    margin: 0;
+    color: var(--text);
+}
+
+.auth-inner .sub {
+    color: var(--text2);
+    font-size: 15px;
+    margin: 4px 0 26px;
+}
+
+/* ── Labels + fields (mockup label / .field / input) ── */
+.auth-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text2);
+    margin: 0 0 8px;
+}
+
+.field {
+    position: relative;
+    margin-bottom: 18px;
+}
+
+.field input {
+    width: 100%;
+    font: inherit;
+    font-size: 16px;
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 15px 16px;
+    outline: none;
+    transition: border-color .2s;
+}
+
+.field input::placeholder {
+    color: #555c68;
+}
+
+.field input:focus {
+    border-color: var(--acc);
+}
+
+.field input.bad {
+    border-color: var(--error);
+}
+
+/* Password eye toggle — icon is drawn by togglePass() in
+   utils/dom-helpers.js as an inline SVG (eye / eye-off). Positioned
+   like the mockup's .eye (absolute, right 6px / bottom 6px). */
+.field .input-toggle {
+    position: absolute;
+    right: 6px;
+    bottom: 6px;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+    border: 0;
+    background: none;
+    color: var(--text2);
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    padding: 0;
+}
+
+.field .input-toggle svg {
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+
+/* Inline error line (mockup .err) — empty until a message is set. */
+.auth-err {
+    color: var(--error);
+    font-size: 13px;
+    min-height: 20px;
+    margin: -6px 0 6px;
+}
+
+/* ── Links row (mockup .links) ── */
+.auth-links {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin: 2px 0 24px;
+    font-size: 14px;
+}
+
+.auth-links .link-btn {
+    background: none;
+    border: none;
+    padding: 8px 4px;
+    min-height: 44px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--acc);
+    cursor: pointer;
+    text-decoration: none;
+}
+
+/* ── Buttons (mockup .btn / .btn.pri) — scoped to auth pages only ── */
+body[data-page="login"] .btn,
+body[data-page="register"] .btn,
+html[data-page="verifyEmail"] .btn {
+    width: 100%;
+    font: inherit;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 14px;
+    padding: 15px;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+    font-family: inherit;
+}
+
+body[data-page="login"] .btn-primary,
+body[data-page="register"] .btn-primary,
+html[data-page="verifyEmail"] .btn-primary {
+    background: var(--acc);
+    border-color: var(--acc);
+    color: var(--acc-ink);
+    box-shadow: none;
+}
+
+body[data-page="login"] .btn-primary[disabled],
+body[data-page="register"] .btn-primary[disabled],
+html[data-page="verifyEmail"] .btn-primary[disabled] {
+    opacity: .65;
+}
+
+body[data-page="login"] .btn-primary:active,
+body[data-page="register"] .btn-primary:active,
+html[data-page="verifyEmail"] .btn-primary:active {
+    transform: scale(.98);
+    box-shadow: none;
+}
+
+body[data-page="login"] .btn-secondary,
+body[data-page="register"] .btn-secondary,
+html[data-page="verifyEmail"] .btn-secondary {
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--text);
+}
+
+body[data-page="login"] .btn-block,
+body[data-page="register"] .btn-block,
+html[data-page="verifyEmail"] .btn-block {
+    width: 100%;
+    min-height: 48px;
+    font-size: 16px;
+}
+
+/* ── Divider (mockup .or) ── */
+.auth-divider {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: var(--text2);
+    font-size: 13px;
+    margin: 24px 0;
+    text-align: center;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+    content: "";
+    flex: 1;
+    border-top: 1px solid var(--line);
+}
+
+/* ── Terms checkbox row (register) ── */
+.auth-terms {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 16px 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--text2);
+    cursor: pointer;
+}
+
+.auth-terms input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    min-width: 18px;
+    margin: 2px 0 0;
+    flex-shrink: 0;
+    accent-color: var(--acc);
+}
+
+.auth-terms a {
+    color: var(--acc);
+    text-decoration: underline;
+}
+
+/* ── Trust footer (mockup .foot) ── */
+.auth-trust {
+    margin-top: auto;
+    padding: 28px 0 20px;
+    color: var(--text2);
+    font-size: 12.5px;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.auth-trust .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.auth-trust .trust-item svg {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: var(--acc);
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* ── Verify-email page (same tokens, logo, buttons) ──
+   Structure + inline styles are kept; the scoped vars above
+   re-token them (bg3/border/error/text/text2/text3/accent all
+   resolve to the new tokens on this page). */
+html[data-page="verifyEmail"] .auth-page {
+    max-width: 440px;
+    margin: 0 auto;
+    padding: max(48px, env(safe-area-inset-top, 0px)) 24px 32px;
+}
+
+/* Logo header above the verify card (same 64px tile as login). */
+html[data-page="verifyEmail"] .ve-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+html[data-page="verifyEmail"] .ve-brand .logo {
+    display: block;
+    width: 64px;
+    height: 64px;
+    border-radius: 24%;
+    box-shadow: 0 0 0 1px rgba(199, 255, 62, .25), 0 12px 40px rgba(199, 255, 62, .18);
+}
+
+html[data-page="verifyEmail"] .ve-brand .word {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -.01em;
+    line-height: 1.1;
+    margin-top: 14px;
+    color: var(--text);
+}
+
+html[data-page="verifyEmail"] .ve-brand small {
+    color: var(--text2);
+    font-size: 13.5px;
+    margin-top: 2px;
+}
+
+/* Verify card: same surface as the auth look (radius 16px). */
+html[data-page="verifyEmail"] .auth-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 24px 20px 20px;
+}
+
+/* Verify buttons keep the mockup geometry (15px / 14px radius). */
+html[data-page="verifyEmail"] .btn {
+    border-radius: 14px;
+    padding: 15px;
+}
+
+/* ── Focus visibility (mockup) ── */
+body[data-page="login"] button:focus-visible,
+body[data-page="login"] a:focus-visible,
+body[data-page="register"] button:focus-visible,
+body[data-page="register"] a:focus-visible,
+html[data-page="verifyEmail"] button:focus-visible,
+html[data-page="verifyEmail"] a:focus-visible {
+    outline: 2px solid var(--acc);
+    outline-offset: 3px;
+}

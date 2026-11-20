@@ -1,0 +1,116 @@
+/* ══════════════════════════════════════
+     BOTTOM TAB BAR
+     UNSLOP Group 1: flat chrome, one lime accent, 4px grid, weights 500/600.
+     NOTE: shared by all tabs, so this fix also changes the nav on pages
+     whose bodies are not yet unslopped — intended.
+  ══════════════════════════════════════ */
+.tab-bar {
+    /* FIX (FINAL): installed app-এ #app কিছু ফোনে আসল visible screen-এর
+       চেয়ে লম্বা হিসাব হতো, তাই absolute bottom-nav screen-এর নিচে চলে
+       গিয়ে আইকনগুলো অর্ধেক কাটা দেখাত। Fixed position দিলে nav সবসময়
+       আসল viewport-এর একদম নিচে থাকে — #app-এর height যাই হোক। */
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 430px;
+    z-index: 1000;
+    /* UNSLOP (pass 2): translucent + glass blur removed — solid surface. */
+    background: var(--bg2);
+    border-top: 0.5px solid var(--border2);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-around;
+    padding-top: 8px;
+    padding-bottom: max(12px, env(safe-area-inset-bottom, 0px));
+    /* UNSLOP (pass 9): catch-all transition removed -> named properties only. */
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.tab-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 0 4px;
+    cursor: pointer;
+    min-height: 48px;
+    transition: transform 0.15s cubic-bezier(0.22, 1, 0.36, 1);
+    position: relative;
+}
+
+.tab-item:active {
+    /* UNSLOP (pass 9): press is a tiny scale down only (was 0.86). */
+    transform: scale(0.97);
+}
+
+.tab-icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s ease;
+    opacity: 0.55;
+}
+
+.tab-icon svg {
+    /* UNSLOP (pass 3): one icon size/stroke — 22px, 1.5 stroke. */
+    width: 22px;
+    height: 22px;
+    stroke-width: 1.5;
+}
+
+.tab-label {
+    /* UNSLOP (pass 5): 10px -> 11px, weight stays 500. */
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text2);
+    transition: color 0.2s ease;
+}
+
+.tab-item.active .tab-label {
+    color: var(--accent);
+    /* UNSLOP (pass 5): weight 700 -> 600. */
+    font-weight: 600;
+}
+
+.tab-item.active .tab-icon {
+    /* UNSLOP (pass 9): active no longer scales up (was 1.15) — opacity only. */
+    opacity: 1;
+}
+
+.tab-item.active::after {
+    content: '';
+    display: block;
+    width: 4px;
+    height: 4px;
+    background: var(--accent);
+    border-radius: 50%;
+    margin: 0 auto;
+}
+
+.tab-badge {
+    position: absolute;
+    top: -2px;
+    right: 10px;
+    background: var(--error);
+    color: #fff;
+    font-size: 10px;
+    /* UNSLOP (pass 5/9): weight 700 -> 600; badgePop animation removed. */
+    font-weight: 600;
+    width: 16px;
+    height: 16px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--bg);
+    font-variant-numeric: tabular-nums;
+}
+
+.tab-item.active .tab-icon svg {
+    stroke: var(--accent);
+}

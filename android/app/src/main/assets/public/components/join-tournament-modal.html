@@ -1,0 +1,44 @@
+<!-- REGISTRATION / JOIN MODAL (SOLO, DUO, SQUAD) -->
+<div id="modal-join-tournament" class="full-modal">
+    <div class="modal-header">
+        <button class="back-btn" onclick="closeModal('modal-join-tournament')">‹ Back</button>
+        <h2 id="join-modal-title">Join Tournament</h2>
+    </div>
+    <div class="scroll-area" style="padding: 16px 20px 80px;">
+        <!-- Tournament Mini Summary -->
+        <div class="card-inset" style="margin-bottom: 16px;">
+            <div style="font-size: 16px; font-weight: 600; color: var(--text);" id="join-summary-name">—</div>
+            <div style="display: flex; gap: 8px; margin-top: 6px; flex-wrap: wrap;">
+                <span class="badge badge-mode" id="join-summary-mode">—</span>
+                <span class="badge badge-paid" id="join-summary-fee">—</span>
+                <!-- UNSLOP Group 4 (pass 2): cyan badge wash → flat neutral. -->
+                <span class="badge" style="background: var(--bg4); color: var(--text2);" id="join-summary-format">—</span>
+            </div>
+        </div>
+
+        <!-- Dynamic Form Container -->
+        <div id="join-form-container">
+            <!-- Javascript will dynamically inject Solo / Duo / Squad fields here -->
+        </div>
+
+        <!-- SLOT BOOKING (v8.3): Free join-এ user নিজের slot বেছে নেয় —
+             grid-টা join-tournament.js (renderJoinSlotPicker) ভরে দেবে। -->
+        <div id="join-slot-picker" style="margin-top:16px;"></div>
+
+        <!-- v8.8 (item 12, surface_real_errors): PERSISTENT join error —
+             আসল কারণ + পরের ধাপ এখানে থাকে (dismiss / পরের চেষ্টা
+             পর্যন্ত)। শুধু toast-এ ভরসা করা যাবে না। -->
+        <div id="join-error" role="alert" style="display:none; margin-top:16px; background:var(--bg3); border:1px solid var(--error); border-radius:12px; padding:12px 14px;">
+            <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:10px;">
+                <span id="join-error-text" style="font-size:13px; color:var(--text); line-height:1.6;"></span>
+                <button type="button" id="join-error-dismiss" aria-label="বন্ধ করো" style="flex-shrink:0; background:none; border:none; color:var(--text2); font-size:18px; line-height:1; cursor:pointer; padding:2px 6px;">×</button>
+            </div>
+        </div>
+
+        <div style="margin-top: 20px;">
+            <button class="btn btn-primary" id="join-submit-btn" onclick="submitTournamentRegistration()">
+                <span>Join</span>
+            </button>
+        </div>
+    </div>
+</div>

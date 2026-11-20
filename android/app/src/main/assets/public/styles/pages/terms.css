@@ -1,0 +1,195 @@
+/* ══════════════════════════════════════
+   TERMS & CONDITIONS — premium page design
+   ══════════════════════════════════════ */
+
+.terms-page {
+    min-height: 100%;
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+}
+
+/* ── Hero header ── */
+/* UNSLOP Group 4 (pass 2): hero is flat — gold + cyan radial washes
+   and the gold gradient divider are gone. */
+.terms-hero {
+    position: relative;
+    padding: calc(var(--safe-top) + 10px) 16px 24px;
+    text-align: center;
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+}
+
+.terms-hero-back {
+    position: absolute;
+    top: calc(var(--safe-top) + 8px);
+    left: 16px;
+    z-index: 2;
+}
+
+.terms-hero-icon {
+    margin: 6px 0 10px;
+    color: var(--text2);
+    display: flex;
+    justify-content: center;
+}
+
+.terms-hero-icon svg {
+    width: 40px;
+    height: 40px;
+    display: block;
+}
+
+.terms-hero-title {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: -.3px;
+    color: var(--text);
+}
+
+.terms-hero-sub {
+    margin: 6px 0 0;
+    font-size: 13px;
+    color: var(--text2);
+    font-weight: 500;
+}
+
+.terms-updated-chip {
+    display: inline-block;
+    margin-top: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0;
+    color: var(--text2);
+    background: var(--bg4);
+    border: 1px solid var(--border);
+    padding: 4px 8px;
+    border-radius: 8px;
+}
+
+/* ── Content ── */
+.terms-content-area {
+    padding: 24px 16px 40px;
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.terms-content {
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+.terms-empty-state {
+    min-height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Numbered section heading */
+.terms-h {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 24px 0 8px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -.2px;
+}
+
+.terms-h:first-child {
+    margin-top: 2px;
+}
+
+/* UNSLOP (pass 2): number tiles are flat neutral — gold gradient +
+   gold glow were prize-figure styling, not section styling. */
+.terms-h-num {
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    background: var(--bg4);
+    border: 1px solid var(--border);
+}
+
+/* Plain (unnumbered) section heading */
+.terms-h-plain {
+    margin: 24px 0 8px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    padding-left: 12px;
+    border-left: 3px solid var(--accent);
+}
+
+.terms-h-plain:first-child {
+    margin-top: 2px;
+}
+
+/* Body paragraphs */
+.terms-p {
+    margin: 0 0 12px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text2);
+}
+
+/* Bullet lists */
+.terms-ul {
+    margin: 0 0 14px;
+    padding: 0;
+    list-style: none;
+}
+
+.terms-ul li {
+    position: relative;
+    padding: 8px 12px 8px 30px;
+    margin-bottom: 6px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text2);
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+}
+
+.terms-ul li::before {
+    content: "▸";
+    position: absolute;
+    left: 12px;
+    top: 8px;
+    color: var(--accent);
+    font-weight: 600;
+}
+
+/* ── Footer ── */
+.terms-footer {
+    text-align: center;
+    margin-top: 32px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+}
+
+.terms-footer-brand {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    color: var(--text3);
+}
+
+.terms-footer-note {
+    margin-top: 4px;
+    font-size: 11px;
+    color: var(--text3);
+}

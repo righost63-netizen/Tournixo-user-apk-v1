@@ -1,0 +1,22 @@
+{
+  "appId": "com.tournixo.app",
+  "appName": "Tournixo",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https",
+    "hostname": "localhost",
+    "allowNavigation": [
+      "localhost",
+      "*.firebaseapp.com",
+      "*.web.app",
+      "*.googleapis.com",
+      "*.gstatic.com"
+    ]
+  },
+  "android": {
+    "allowMixedContent": false,
+    "captureInput": true,
+    "webContentsDebuggingEnabled": false
+  }
+}

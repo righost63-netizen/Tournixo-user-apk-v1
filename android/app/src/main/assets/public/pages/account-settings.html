@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Account Settings - Tournixo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/global.css">
+    <link rel="stylesheet" href="../styles/components/toast.css">
+    <link rel="stylesheet" href="../styles/components/confirm-dialog.css">
+    <link rel="stylesheet" href="../styles/pages/account-settings.css">
+    <link rel="stylesheet" href="../styles/theme.css">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="icon" type="image/png" sizes="32x32" href="../icons/favicon-32.png">
+    <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+    <link rel="modulepreload" href="../scripts/app.js">
+    <link rel="modulepreload" href="../scripts/state.js">
+    <link rel="modulepreload" href="../scripts/cache.js">
+    <link rel="modulepreload" href="../firebase/firebase-init.js">
+</head>
+
+<body data-page="accountSettings">
+    <div id="app">
+        <div id="screen-main" class="screen active">
+
+            <!-- pages/account-settings.html — premium account management (v7.2) -->
+            <div class="page" id="page-account-settings" style="min-height:100%;background:var(--bg);display:flex;flex-direction:column;">
+                <div class="top-nav" style="justify-content:flex-start;gap:14px;">
+                    <button class="back-btn" onclick="goBack('profile')">‹ Back</button>
+                    <h1>Account Settings</h1>
+                </div>
+
+                <div class="scroll-area">
+                    <!-- Hero: who is this account -->
+                    <div class="acc-hero">
+                        <div class="acc-avatar" id="acc-avatar">?</div>
+                        <div class="acc-hero-info">
+                            <div class="acc-hero-name" id="acc-name">Loading...</div>
+                            <div class="acc-hero-email" id="acc-email">—</div>
+                            <div class="acc-hero-uid"><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="6" x2="10" y1="11" y2="11"/><line x1="8" x2="8" y1="9" y2="13"/><line x1="15" x2="15.01" y1="12" y2="12"/><line x1="18" x2="18.01" y1="10" y2="10"/><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"/></svg></span><span id="acc-uid">UID: —</span></div>
+                            <div class="acc-hero-uid"><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span><span id="acc-phone">Mobile: —</span></div>
+                        </div>
+                    </div>
+
+                    <!-- UNSLOP Group 4 (pass 3/4): row icons are line SVGs, not emoji; section labels are sentence case. -->
+                    <div class="acc-sec-label">Profile</div>
+                    <div class="acc-card">
+                        <div class="acc-row" onclick="pickProfilePhoto()">
+                            <div class="acc-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg></div>
+                            <div class="acc-row-body">
+                                <div class="acc-row-label" id="photo-row-label">Add Profile Photo</div>
+                                <div class="acc-row-sub">Shown on leaderboard &amp; profile</div>
+                            </div>
+                            <div class="acc-chev">›</div>
+                        </div>
+                        <div class="acc-row" id="photo-remove-row" style="display:none;" onclick="removeProfilePhoto()">
+                            <div class="acc-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg></div>
+                            <div class="acc-row-body">
+                                <div class="acc-row-label">Remove Photo</div>
+                                <div class="acc-row-sub">Back to your initials</div>
+                            </div>
+                            <div class="acc-chev">›</div>
+                        </div>
+                        <div class="acc-row" onclick="editProfileName()">
+                            <div class="acc-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg></div>
+                            <div class="acc-row-body">
+                                <div class="acc-row-label">Edit Name</div>
+                                <div class="acc-row-sub" id="acc-name-sub">Your display name</div>
+                            </div>
+                            <div class="acc-chev">›</div>
+                        </div>
+                    </div>
+
+                    <div class="acc-sec-label">Security</div>
+                    <div class="acc-card">
+                        <div class="acc-row" onclick="changePassword()">
+                            <div class="acc-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21 2-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0 3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg></div>
+                            <div class="acc-row-body">
+                                <div class="acc-row-label">Change Password</div>
+                                <div class="acc-row-sub">Secure reset link via email</div>
+                            </div>
+                            <div class="acc-chev">›</div>
+                        </div>
+                    </div>
+
+                    <div class="acc-sec-label">Danger Zone</div>
+                    <div class="acc-card danger-zone">
+                        <div class="acc-row danger" onclick="requestAccountDeletion()">
+                            <div class="acc-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></div>
+                            <div class="acc-row-body">
+                                <div class="acc-row-label">Delete Account</div>
+                                <div class="acc-row-sub">অ্যাকাউন্ট সাথে সাথে মুছে যাবে — টাকা ফেরত পাওয়া যাবে না</div>
+                            </div>
+                            <div class="acc-chev">›</div>
+                        </div>
+                    </div>
+                    <input type="file" id="photo-input" accept="image/*" hidden>
+                    <div style="height:28px;"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script type="module" src="../scripts/account-settings.js"></script>
+</body>
+
+</html>

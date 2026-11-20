@@ -1,0 +1,110 @@
+/* ══════════════════════════════════════
+     THEME VARIABLES — dark premium theme (only theme)
+     NOTE: Load this file LAST in every page (after global/components/page CSS)
+  ══════════════════════════════════════ */
+:root {
+    /* Dark Mode (Default) */
+    /* FIX (2026-11-20, S4): blue-slate surfaces → neutrals from the
+       Wallet/Matches redesign family (#0d0f12/#14171c) so Home/
+       Tournaments/Wallet no longer look blue-grey next to the neutral
+       Profile/Leaderboard pages. Mapping mirrors the redesign pages'
+       own body-scoped vars (bg3/bg4 → #14171c, bg5 → #0d0f12). */
+    --bg: #080808;
+    --bg2: #0F1115;
+    --bg3: #14171c;
+    --bg4: #14171c;
+    --bg5: #0d0f12;
+    --accent: #C7FF3E;
+    --gold: #FFD700;
+    --text: #FFFFFF;
+    --text2: rgba(255, 255, 255, 0.70);
+    --text3: rgba(255, 255, 255, 0.40);
+    --success: #00E676;
+    --success-dim: rgba(0, 230, 118, 0.12);
+    --error: #FF453A;
+    --error-dim: rgba(255, 69, 58, 0.12);
+    --info: #0A84FF;
+    --info-dim: rgba(10, 132, 255, 0.12);
+    /* FIX (2026-11-20, S5): ambers/pending unify on #f5b04c (redesign warn). */
+    --warning: #f5b04c;
+    --warning-dim: rgba(245, 176, 76, 0.12);
+    --border: rgba(255, 255, 255, 0.08);
+    --border2: rgba(255, 255, 255, 0.12);
+    --border3: rgba(255, 255, 255, 0.16);
+    --radius: 24px;
+    --radius-sm: 18px;
+    --radius-xs: 12px;
+    --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.25);
+    --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.35);
+    --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.45);
+    --safe-top: env(safe-area-inset-top, 44px);
+    --safe-bottom: env(safe-area-inset-bottom, 34px);
+    /* FIX: bg2-rgb variable for rgba() usage in tab-bar */
+    --bg2-rgb: 15, 17, 21;
+}
+
+
+body[data-page="home"] {
+    --accent: #00D26A;
+    --accent-dim: #00B85C;
+    --home-mint: #3FD9A4;
+}
+
+/* UNSLOP (pass 2): ONE accent for the unslopped screens only — lime
+   #C7FF3E with dark text on it. Scoped to these four pages so no other
+   page changes. FIX (2026-11-11, M13): :root --accent এখন lime #C7FF3E,
+   আর dead token-গুলো (blue accent-grad, gold gradient/glow) মুছে ফেলা
+   হয়েছে — নতুন page-এ scope না থাকলেও আর সবুজ button হবে না.
+   Keep this block AFTER the body[data-page="home"] rule above. */
+body[data-page="login"],
+body[data-page="register"],
+body[data-page="home"],
+body[data-page="tournaments"] {
+    --accent: #C7FF3E;
+    --accent-dim: #A8D900;
+}
+
+/* UNSLOP Group 1 (pass 2): extend the same scoped lime accent to the two
+   Group 1 pages. tournamentDetails uses var(--accent) in its JS templates
+   and .rule-num; matches.css already sets --accent itself, this is
+   belt-and-braces so both pages read the same token. Nothing else changes. */
+body[data-page="matches"],
+body[data-page="tournamentDetails"] {
+    --accent: #C7FF3E;
+    --accent-dim: #A8D900;
+}
+
+/* UNSLOP Group 2 (pass 2): extend the same scoped lime accent to the three
+   Group 2 pages. Wallet already sets --accent itself in wallet.css; this
+   keeps payment/withdrawal on the same token. Nothing else changes. */
+body[data-page="wallet"],
+body[data-page="payment"],
+body[data-page="withdrawal"] {
+    --accent: #C7FF3E;
+    --accent-dim: #A8D900;
+}
+/* UNSLOP Group 3 (pass 2): extend the same scoped lime accent to the four
+   Group 3 pages. Profile/Leaderboard already set --accent themselves in
+   their page CSS; this keeps myTeam/results on the same token. Nothing else changes. */
+body[data-page="profile"],
+body[data-page="myTeam"],
+body[data-page="leaderboard"],
+body[data-page="results"] {
+    --accent: #C7FF3E;
+    --accent-dim: #A8D900;
+}
+
+/* UNSLOP Group 4 (pass 2): extend the same scoped lime accent to the six
+   Group 4 pages. verifyEmail's data-page sits on <html>, not <body>, so it
+   is scoped with html[data-page="verifyEmail"]; the rest are body-scoped.
+   verify-email.html now loads theme.css (it did not before) so the rule
+   actually applies there. Nothing else changes. */
+body[data-page="accountSettings"],
+html[data-page="verifyEmail"],
+body[data-page="notifications"],
+body[data-page="help-support"],
+body[data-page="terms"],
+body[data-page="reportPlayer"] {
+    --accent: #C7FF3E;
+    --accent-dim: #A8D900;
+}

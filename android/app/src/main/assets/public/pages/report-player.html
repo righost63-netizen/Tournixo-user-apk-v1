@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>খেলোয়াড় রিপোর্ট - Tournixo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/global.css">
+    <link rel="stylesheet" href="../styles/components/toast.css">
+    <link rel="stylesheet" href="../styles/components/confirm-dialog.css">
+    <link rel="stylesheet" href="../styles/pages/profile.css">
+    <link rel="stylesheet" href="../styles/theme.css">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="icon" type="image/png" sizes="32x32" href="../icons/favicon-32.png">
+    <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+    <link rel="modulepreload" href="../scripts/app.js">
+    <link rel="modulepreload" href="../scripts/state.js">
+    <link rel="modulepreload" href="../scripts/cache.js">
+    <link rel="modulepreload" href="../firebase/firebase-init.js">
+</head>
+
+<body data-page="reportPlayer">
+    <div id="app">
+        <div id="screen-main" class="screen active">
+
+            <!-- pages/report-player.html — Fair play report form (v7.1) -->
+            <div class="page" id="page-report-player" style="min-height:100%;background:var(--bg);display:flex;flex-direction:column;">
+                <div class="top-nav" style="justify-content:flex-start;gap:14px;">
+                    <button class="back-btn" onclick="goBack('profile')">‹ Back</button>
+                    <h1>খেলোয়াড় রিপোর্ট</h1>
+                </div>
+
+                <div class="scroll-area">
+                    <div class="prf-card" style="margin:12px 16px;padding:18px 16px;">
+                        <div style="display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;margin-bottom:4px;"><span style="color:var(--error);display:flex;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></span>খেলোয়াড় রিপোর্ট করো</div>
+                        <div style="font-size:12px;color:var(--text2);margin-bottom:14px;line-height:1.6;">
+                            হ্যাকিং, অশালীন আচরণ বা ভুয়া UID দেখেছো? Tournixo টিম প্রতিটা
+                            রিপোর্ট যাচাই করে — কোনো অটোমেটিক ব্যান নেই। দিনে সর্বোচ্চ ৩টা রিপোর্ট।
+                        </div>
+                        <!-- FIX (2026-11-19, v8.11): টুর্নামেন্ট — URL-এ
+                             ?tournamentId= থাকলে এই row লুকিয়ে নাম দেখাবে;
+                             না থাকলে নিজের জয়েন করা টুর্নামেন্টের list। -->
+                        <div id="report-tournament-row">
+                            <label class="auth-label">টুর্নামেন্ট (ঐচ্ছিক)</label>
+                            <div class="input-group">
+                                <span class="input-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8"/><path d="M12 17v4"/><path d="M7 4h10v6a5 5 0 0 1-10 0Z"/><path d="M7 6H4a1 1 0 0 0-1 1c0 2.5 2 4 4 4"/><path d="M17 6h3a1 1 0 0 1 1 1c0 2.5-2 4-4 4"/></svg></span>
+                                <select id="report-tournament" style="flex:1;background:transparent;border:none;outline:none;color:var(--text);font-size:14px;">
+                                    <option value="">কোনো টুর্নামেন্ট নয়</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="report-tournament-fixed" style="display:none;font-size:13px;color:var(--text2);margin-bottom:12px;"></div>
+                        <label class="auth-label">খেলোয়াড়ের Free Fire UID <span style="color:var(--error)">*</span></label>
+                        <div class="input-group">
+                            <span class="input-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>
+                            <input id="report-ffuid" type="text" inputmode="numeric" maxlength="12" placeholder="৮–১২ সংখ্যার UID">
+                        </div>
+                        <label class="auth-label">কারণ <span style="color:var(--error)">*</span></label>
+                        <div class="input-group">
+                            <span class="input-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg></span>
+                            <select id="report-reason" style="flex:1;background:transparent;border:none;outline:none;color:var(--text);font-size:14px;">
+                                <option value="">একটি কারণ বেছে নাও…</option>
+                            </select>
+                        </div>
+                        <label class="auth-label">বিস্তারিত (ঐচ্ছিক)</label>
+<div class="input-group input-group-textarea">
+    <span class="input-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+    <textarea id="report-details" rows="5" placeholder="কী হয়েছিল? (সর্বোচ্চ ৫০০ অক্ষর)" maxlength="500"></textarea>
+</div>
+<div id="report-details-count" style="text-align:right;font-size:11px;color:var(--text3);margin:-6px 2px 10px;">0 / 500</div>
+                        <button class="btn btn-primary btn-block" id="report-submit-btn" style="margin-top:10px;">রিপোর্ট জমা দাও</button>
+                    </div>
+                    <div style="height:24px;"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script type="module" src="../scripts/report-player.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,19 @@
+{
+  "name": "tournixo-user-panel",
+  "version": "8.12.0",
+  "description": "Tournixo - Free Fire Tournament India (Web App + Android Studio Wrapper)",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js",
+    "build": "node android/prepare-web-assets.mjs",
+    "android:sync": "node android/prepare-web-assets.mjs",
+    "lint": "node android/verify-project.mjs"
+  },
+  "dependencies": {
+    "@capacitor/android": "^6.2.1",
+    "@capacitor/core": "^6.2.1",
+    "express": "^4.21.2"
+  }
+}

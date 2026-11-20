@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="tournixo_bg">#080808</color>
+    <color name="tournixo_surface">#14171C</color>
+    <color name="tournixo_accent">#C7FF3E</color>
+    <color name="tournixo_ink">#0A0F00</color>
+    <color name="tournixo_text">#FFFFFF</color>
+    <color name="tournixo_text_muted">#B3FFFFFF</color>
+</resources>
